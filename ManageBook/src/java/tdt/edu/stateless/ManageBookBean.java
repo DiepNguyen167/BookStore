@@ -12,6 +12,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import tdt.edu.persistence.Account;
 import tdt.edu.persistence.Books;
 
 /**
@@ -30,7 +31,7 @@ public class ManageBookBean implements ManageBookBeanRemote {
 
     @Override
     public List<Books> getListBook() {
-       return entityManager.createNamedQuery("Book.findAll").getResultList();
+       return entityManager.createNamedQuery("Books.findAll").getResultList();
     }
 
     // Add business logic below. (Right-click in editor and choose
@@ -38,5 +39,22 @@ public class ManageBookBean implements ManageBookBeanRemote {
     @Override
     public void addBook(Books book) {
        entityManager.persist(book);
+    }
+    
+    @Override
+    public Account logIn(String username, String pass){
+        List<Account> list = entityManager.createNamedQuery("Account.findByUsername").setParameter("username", username).getResultList();
+        if(!list.isEmpty()){
+            for (Account account : list) {
+                if(account.getPass().equals(pass)){
+                    Account user = new Account();
+                            user.setUsername(account.getUsername());
+                            user.setPass(pass);
+                            user.setRole(account.getRole());
+                            return user;
+                }
+            }
+        }
+        return null;
     }
 }

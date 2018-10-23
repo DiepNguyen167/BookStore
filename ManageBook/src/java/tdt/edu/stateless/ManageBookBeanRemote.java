@@ -6,6 +6,7 @@
 package tdt.edu.stateless;
 import java.util.List;
 import javax.ejb.Remote;
+import tdt.edu.persistence.Account;
 import tdt.edu.persistence.Books;
 
 /**
@@ -16,4 +17,5 @@ import tdt.edu.persistence.Books;
 public interface ManageBookBeanRemote {
     public List<Books> getListBook();
     public void addBook(Books book);
+    public Account logIn(String username, String pass);
 }

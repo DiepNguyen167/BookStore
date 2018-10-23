@@ -5,7 +5,6 @@
  */
 package edu.tdt.manage.impl;
 
-
 import tdt.edu.persistence.Books;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,6 +13,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import tdt.edu.persistence.Account;
 import tdt.edu.stateless.ManageBookBean;
 import tdt.edu.stateless.ManageBookBeanRemote;
 
@@ -44,7 +44,7 @@ public class BookStoreImpl {
 
         try {
             ctx = new InitialContext(props);
-            //ctx.close();
+            System.out.println(ctx);
         } catch (NamingException ex) {
             System.err.println(ex.toString());
         }
@@ -58,6 +58,36 @@ public class BookStoreImpl {
         String viewClassName = ManageBookBeanRemote.class.getName();
 
         return "ejb:" + appName + "/" + moduleName + "/" + distinctName + "/" + sessionBeanName + "!" + viewClassName;
+    }
+
+    private void logIn() throws NamingException {
+        System.out.println("\n===============================");
+        System.out.println("Log In");
+        System.out.println("Nhập username: ");
+        Scanner sc = new Scanner(System.in);
+        String username = sc.nextLine();
+        System.out.println("Nhập password: ");
+        String pass = sc.nextLine();
+        ManageBookBeanRemote login = (ManageBookBeanRemote) ctx.lookup(getJNDI());
+        Account account = login.logIn(username, pass);
+        if (account != null) {
+            System.out.println("Access Granted! Welcome!");
+            testStatelessEJB();
+        } else {
+            System.out.println("Username or Password InCorrect!!");
+
+        }
+    }
+
+    private void logInAgain() throws NamingException {
+        System.out.println("\n===============================");
+        System.out.print("Options: \n1. LogIn Again \nEnter Choice: ");
+        Scanner sc = new Scanner(System.in);
+        int choice = choice = Integer.parseInt(sc.nextLine());
+        if (choice == 1) {
+            // Print all books
+            logIn();
+        }
     }
 
     /**
@@ -94,12 +124,14 @@ public class BookStoreImpl {
         try {
             // Scanner definition
             Scanner sc = new Scanner(System.in);
-
             // Lookup the LibrarySessionBeanRemote
             ManageBookBeanRemote libBean = (ManageBookBeanRemote) ctx.lookup(getJNDI());
             int choice = 0;
             while (choice != 3) {
                 this.showGUI();
+// Use this approach because nextInt will cause error to nextLine()
+                choice = Integer.parseInt(sc.nextLine());
+
                 if (choice == 1) {
                     // Print all books
                     getAllBooks();
