@@ -31,7 +31,8 @@ public class ManageBookBean implements ManageBookBeanRemote {
 
     @Override
     public List<Books> getListBook() {
-       return entityManager.createNamedQuery("Books.findAll").getResultList();
+        String query= "select * from public.'BOOKS';";
+       return entityManager.createQuery(query).getResultList();
     }
 
     // Add business logic below. (Right-click in editor and choose
