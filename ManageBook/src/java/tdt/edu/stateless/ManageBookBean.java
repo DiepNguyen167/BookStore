@@ -31,7 +31,7 @@ public class ManageBookBean implements ManageBookBeanRemote {
 
     @Override
     public List<Books> getListBook() {
-        String query= "select * from public.'BOOKS';";
+        String query= "select e from public.'BOOKS' e ";
        return entityManager.createQuery(query).getResultList();
     }
 
@@ -39,23 +39,24 @@ public class ManageBookBean implements ManageBookBeanRemote {
     // "Insert Code > Add Business Method")
     @Override
     public void addBook(Books book) {
-       entityManager.persist(book);
+       //entityManager.persist(book);
     }
     
     @Override
     public Account logIn(String username, String pass){
-        List<Account> list = entityManager.createNamedQuery("Account.findByUsername").setParameter("username", username).getResultList();
-        if(!list.isEmpty()){
-            for (Account account : list) {
-                if(account.getPass().equals(pass)){
-                    Account user = new Account();
-                            user.setUsername(account.getUsername());
-                            user.setPass(pass);
-                            user.setRole(account.getRole());
-                            return user;
-                }
-            }
-        }
+//        String queryPass = "SELECT a FROM ACCOUNT a WHERE a.USERNAME = :username";
+//        List<Account> list = entityManager.createQuery(pass).setParameter("username", username).getResultList();
+//        if(!list.isEmpty()){
+//            for (Account account : list) {
+//                if(account.getPass().equals(pass)){
+//                    Account user = new Account();
+//                            user.setUsername(account.getUsername());
+//                            user.setPass(pass);
+//                            user.setRole(account.getRole());
+//                            return user;
+//                }
+//            }
+//        }
         return null;
     }
 }

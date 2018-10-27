@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <datasources>
  <local-tx-datasource>
  <jndi-name>PostgresDS</jndi-name>
+ <jboss-ejb-client>/ManageBook/</jboss-ejb-client>
  <connection-url>jdbc:postgresql://localhost:5432/ManageBook</connection-url>
  <driver-class>org.postgresql.driver</driver-class>
  <user-name>postgres</user-name>
@@ -11,4 +13,3 @@
  <idle-timeout-minutes>5</idle-timeout-minutes>
  </local-tx-datasource>
 </datasources>
-<jboss/>
